@@ -35,19 +35,18 @@ endfunction
 " * if open and visible -> use it
 " * if open but hidden -> show it 
 " * if not open -> create a new from optional or syntax
-function! CheckTerminal(...)
+function! CheckTerminal()
     " Optional argument for string in terminal title.
     " If not provided, syntax is used.
-    if a:0 == 0
-        let syn = &syntax
+    if exists("b:REPL")
+        let syn = b:REPL
     else
-        let syn = a:1
+        let syn = &syntax
     endif
     " Get buffer id of terminal matching last_term_job_id
-    if exists("g:last_term_job_id")
+    if exists("g:last_term_job_id") && g:last_term_job_id != ''
         let term_buf_id = filter(range(1, bufnr('$'))
                         \ ,'getbufvar(v:val,"terminal_job_id") == ' . g:last_term_job_id)
-        echo term_buf_id
         if len(term_buf_id) == 0
             let term_visible = 0
         else
@@ -83,5 +82,3 @@ function! CheckTerminal(...)
         exe currentWindow . "wincmd w"
     endif
 endfunction
-" Let and unlet the terminal id on terminal open.
-autocmd TermOpen * let g:last_term_job_id = b:terminal_job_id
