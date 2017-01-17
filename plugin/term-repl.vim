@@ -4,7 +4,7 @@
 
 " Sends a text to the terminal defined in last_term_job_id.
 function! SendToLastTerm(text)
-    call jobsend(g:last_term_job_id,a:text)
+    call jobsend(b:last_term_job_id,a:text)
 endfunction
 
 " Reads the lines from visual selection or reads the current line from buffer.
@@ -28,7 +28,7 @@ endfunction
 
 " Sets the current terminal as last id.
 function! SetThisLastTerm()
-    let g:last_term_job_id = b:terminal_job_id
+    let b:last_term_job_id = b:terminal_job_id
 endfunction
 
 " Ensures a terminal is available.
@@ -44,9 +44,9 @@ function! CheckTerminal()
         let syn = &syntax
     endif
     " Get buffer id of terminal matching last_term_job_id
-    if exists("g:last_term_job_id") && g:last_term_job_id != ''
+    if exists("b:last_term_job_id") && b:last_term_job_id != ''
         let term_buf_id = filter(range(1, bufnr('$'))
-                        \ ,'getbufvar(v:val,"terminal_job_id") == ' . g:last_term_job_id)
+                        \ ,'getbufvar(v:val,"terminal_job_id") == ' . b:last_term_job_id)
         if len(term_buf_id) == 0
             let term_visible = 0
         else
@@ -61,23 +61,26 @@ function! CheckTerminal()
         " Search for terminal buffers witch contain syn.
         let term_buf_id = filter(range(1, bufnr('$'))
                         \ ,"getbufvar(v:val,'term_title') =~ '\\c" . syn ."'")
-
-        echo term_buf_id
         " If a terminal buffer with syn in title was found create a new
         " split below right, load the buffer and switch back to the current
         " buffer.
         " In case no buffer matching the criteria was found just open a new
         " one and run the provided command from syn.
+        " In case its open just just get the buf var
         let currentWindow=winnr()
-        botright split
-        if len(term_buf_id) > 0
+        if bufwinid(term_buf_id[0]) != -1
+            let last_term_job_id = getbufvar(term_buf_id[0],'terminal_job_id')
+        elseif len(term_buf_id) > 0
+            botright split
             exe 'b ' . term_buf_id[0]
-            let g:last_term_job_id = getbufvar(term_buf_id[0],'terminal_job_id')
+            let last_term_job_id = getbufvar(term_buf_id[0],'terminal_job_id')
         else
+            botright split
             exe 'e term://' . syn
-            let g:last_term_job_id = getbufvar('%','terminal_job_id')
+            let last_term_job_id = getbufvar('%','terminal_job_id')
         endif
         " switch back to the last split.
         exe currentWindow . "wincmd w"
+        let b:last_term_job_id = last_term_job_id
     endif
 endfunction
