@@ -68,12 +68,14 @@ function! CheckTerminal()
         " one and run the provided command from syn.
         " In case its open just just get the buf var
         let currentWindow=winnr()
-        if bufwinid(term_buf_id[0]) != -1
-            let last_term_job_id = getbufvar(term_buf_id[0],'terminal_job_id')
-        elseif len(term_buf_id) > 0
-            botright split
-            exe 'b ' . term_buf_id[0]
-            let last_term_job_id = getbufvar(term_buf_id[0],'terminal_job_id')
+        if len(term_buf_id) > 0
+            if bufwinid(term_buf_id[0]) != -1
+                let last_term_job_id = getbufvar(term_buf_id[0],'terminal_job_id')
+            else
+                botright split
+                exe 'b ' . term_buf_id[0]
+                let last_term_job_id = getbufvar(term_buf_id[0],'terminal_job_id')
+            endif
         else
             botright split
             exe 'e term://' . syn
