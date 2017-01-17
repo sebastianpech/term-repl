@@ -1,6 +1,6 @@
 " term-repl.vim - Neovim REPL Support
 " Author:       Sebastian Pech
-" Version:      0.1
+" Version:      0.2
 
 " Sends a text to the terminal defined in last_term_job_id.
 function! SendToLastTerm(text)
