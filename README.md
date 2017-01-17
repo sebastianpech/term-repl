@@ -6,7 +6,7 @@ split.
 For [pathogen.vim](https://github.com/tpope/vim-pathogen) copy and paste:
 
     cd ~/.vim/bundle
-    git clone git://github.com/tpope/vim-dispatch.git
+    git clone git://github.com/sebastianpech/term-repl.git
 
 For [vundle.vim](https://github.com/VundleVim/Vundle.vim) copy and paste:
 
