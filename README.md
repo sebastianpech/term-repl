@@ -26,7 +26,7 @@ Example configuration:
     augroup END
 
 term-repl.vim tries to guess the REPL by using the syntax name. In some cases
-e.g. python, the REPL differs from the syntax name. To change the REPL loaded
-`b:REPL` has to be set, interactively or in an autocommand:
+e.g. python the REPL differs from the syntax name. To change the used REPL
+command `b:REPL` has to be set interactively or in an autocommand:
 
-    autocmd FileType python let b:REPL ='ipython'
+    autocmd FileType python let b:REPL = 'ipython'
