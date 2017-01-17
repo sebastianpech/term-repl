@@ -59,11 +59,10 @@ function! CheckTerminal()
     " contains syn.
     if term_visible == 0
         " Search for terminal buffers witch contain syn.
-        let term_buf_name = (filter(
-                    \ map(
-                    \ range(1, bufnr('$')), 
-                    \ 'getbufvar(v:val,"term_title")'),"v:val =~ '\\c" . syn . "'"))
+        let term_buf_id = filter(range(1, bufnr('$'))
+                        \ ,"getbufvar(v:val,'term_title') =~ '\\c" . syn ."'")
 
+        echo term_buf_id
         " If a terminal buffer with syn in title was found create a new
         " split below right, load the buffer and switch back to the current
         " buffer.
@@ -71,9 +70,9 @@ function! CheckTerminal()
         " one and run the provided command from syn.
         let currentWindow=winnr()
         botright split
-        if len(term_buf_name) > 0
-            exe 'b ' . term_buf_name[0]
-            let g:last_term_job_id = getbufvar(term_buf_name[0],'terminal_job_id')
+        if len(term_buf_id) > 0
+            exe 'b ' . term_buf_id[0]
+            let g:last_term_job_id = getbufvar(term_buf_id[0],'terminal_job_id')
         else
             exe 'e term://' . syn
             let g:last_term_job_id = getbufvar('%','terminal_job_id')
