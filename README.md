@@ -12,13 +12,12 @@ For [vundle.vim](https://github.com/VundleVim/Vundle.vim) copy and paste:
 
     Plugin 'sebastianpech/term-repl'
 
-# Configuration
+## Configuration
 Example configuration:
 
     " General part
     nnoremap <F8> :call SendLine()<CR>
     vnoremap <F8> :call SendLines()<CR>
-    nnoremap <F11> :call SetThisLastTerm()<CR>
 
     " Example implementaion for julia to include the current file
     augroup default_repls
@@ -30,3 +29,7 @@ e.g. python the REPL differs from the syntax name. To change the used REPL
 command `b:REPL` has to be set interactively or in an autocommand:
 
     autocmd FileType python let b:REPL = 'ipython'
+
+In case the terminal can not be found by the terminal name, like when it's a
+bash instance running the REPL. The command `:AttachTo` can be used to attach
+the current buffer to an open terminal.
