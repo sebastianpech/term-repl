@@ -26,11 +26,6 @@ function! SendLines()
     call SendLine()
 endfunction
 
-" Sets the current terminal as last id.
-function! SetThisLastTerm()
-    let b:last_term_job_id = b:terminal_job_id
-endfunction
-
 " Ensures a terminal is available.
 " * if open and visible -> use it
 " * if open but hidden -> show it 
@@ -86,3 +81,30 @@ function! CheckTerminal()
         let b:last_term_job_id = last_term_job_id
     endif
 endfunction
+
+" Filters the available terminal buffers and prompts the user chose one of the
+" found. Returns the terminal_job_id or nothing.
+function! PromptForTerminal()
+    " Search for terminal buffers
+    let term_buf_name = map(filter(range(1, bufnr('$'))
+                    \,"getbufvar(v:val,'term_title') != ''")
+                    \,"bufname(v:val)")
+    if !empty(term_buf_name)
+        echo "\nPlease select the terminal to attach:"
+        let lines = copy(term_buf_name)
+        for i in range(len(term_buf_name))
+          let lines[i] = ' ' . (i + 1) . '. ' . lines[i]
+        endfor
+        let i = inputlist([''] + lines + [''])
+        if i >= 1 && i <= len(term_buf_name)
+            return getbufvar(term_buf_name[i - 1],'terminal_job_id')
+        endif
+    endif
+    echo "\nNo terminals found!\n"
+endfunction
+
+function! AttachToTerminal()
+    let b:last_term_job_id = PromptForTerminal()
+endfunction
+
+command! AttachTo call AttachToTerminal()

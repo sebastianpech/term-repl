@@ -17,13 +17,6 @@ Send visual selection:
 
     vnoremap <F8> :call SendLines()<CR>
 
-Set the current terminal buffer as REPL. This is only needed in special cases,
-like when the terminal buffer was created with :terminal only so the spawned 
-process is bash. That way the buffer can not be found by the name of the spawned
-process.
-
-    nnoremap <F11> :call SetThisLastTerm()<CR>
-
 Example implementaion for julia to include the current file
 
     augroup default_repls
@@ -33,3 +26,16 @@ Example implementaion for julia to include the current file
 Set a different name for the REPL process for the current language.
 
     autocmd FileType python let b:REPL ='ipython'
+
+COMMANDS                                        *term-repl-commands*
+
+:AttachTo
+
+            Attach a terminal to the current buffer. This is only needed in
+            special cases, like when the terminal buffer was created with
+            :terminal so the spawned process is bash. That way the buffer
+            can not be found by the name of the spawned process.
+
+            The command shows the user a list of available terminal buffers and
+            attaches to the user input.
+
