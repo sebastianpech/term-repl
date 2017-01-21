@@ -36,4 +36,4 @@ the current buffer to an open terminal.
 
 The window size for newly created splits can be changed with:
 
-    let g:REPLHeight = 12 " 12 is Defaults
+    let g:REPLHeight = 12
