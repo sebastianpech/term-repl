@@ -1,6 +1,6 @@
 " term-repl.vim - Neovim REPL Support
 " Author:       Sebastian Pech
-" Version:      0.2
+" Version:      0.2.1
 
 " Sends a text to the terminal defined in last_term_job_id.
 function! SendToLastTerm(text)
@@ -76,6 +76,8 @@ function! CheckTerminal()
             exe 'e term://' . syn
             let last_term_job_id = getbufvar('%','terminal_job_id')
         endif
+        " Set to new size
+        exe 'resize ' . g:REPLHeight
         " switch back to the last split.
         exe currentWindow . "wincmd w"
         let b:last_term_job_id = last_term_job_id
@@ -108,3 +110,4 @@ function! AttachToTerminal()
 endfunction
 
 command! AttachTo call AttachToTerminal()
+let g:REPLHeight = 12

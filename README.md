@@ -1,6 +1,6 @@
 # term-repl.vim
 term-repl.vim is a neovim plugin which sends commands to a terminal opened in a
-split. 
+split.
 
 ## Installation
 For [pathogen.vim](https://github.com/tpope/vim-pathogen) copy and paste:
@@ -33,3 +33,7 @@ command `b:REPL` has to be set interactively or in an autocommand:
 In case the terminal can not be found by the terminal name, like when it's a
 bash instance running the REPL. The command `:AttachTo` can be used to attach
 the current buffer to an open terminal.
+
+The window size for newly created splits can be changed with:
+
+    let g:REPLHeight = 12 " 12 is Defaults
