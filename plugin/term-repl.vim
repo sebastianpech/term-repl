@@ -70,14 +70,16 @@ function! CheckTerminal()
                 botright split
                 exe 'b ' . term_buf_id[0]
                 let last_term_job_id = getbufvar(term_buf_id[0],'terminal_job_id')
+                " Set to new size
+                exe 'resize ' . g:REPLHeight
             endif
         else
             botright split
             exe 'e term://' . syn
             let last_term_job_id = getbufvar('%','terminal_job_id')
+            " Set to new size
+            exe 'resize ' . g:REPLHeight
         endif
-        " Set to new size
-        exe 'resize ' . g:REPLHeight
         " switch back to the last split.
         exe currentWindow . "wincmd w"
         let b:last_term_job_id = last_term_job_id
