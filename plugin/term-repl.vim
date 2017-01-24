@@ -107,8 +107,18 @@ function! PromptForTerminal()
     echo "\nNo terminals found!\n"
 endfunction
 
+" Propts the user for a terminal to attach to
 function! AttachToTerminal()
     let b:last_term_job_id = PromptForTerminal()
+endfunction
+
+" Closes the terminal
+function! CloseTerminal()
+    call CheckTerminal()
+    call jobclose(b:last_term_job_id)
+    let term_buf_id = filter(range(1, bufnr('$'))
+                    \ ,'getbufvar(v:val,"terminal_job_id") == ' . b:last_term_job_id)[0]
+    exec "bdelete! ".term_buf_id
 endfunction
 
 command! AttachTo call AttachToTerminal()

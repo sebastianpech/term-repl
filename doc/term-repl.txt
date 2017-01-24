@@ -17,6 +17,13 @@ Send visual selection:
 
     vnoremap <F8> :call SendLines()<CR>
 
+Close Terminal before sending the line:
+
+    nnoremap <F20> :call CloseTerminal() <bar> :call SendLine() <CR>
+
+    I remapped this to shif + F8. To find the keycode for another terminal or 
+    gui goto insert mode and firts press <c-v> than press shift + F8.
+
 Example implementaion for julia to include the current file
 
     augroup default_repls

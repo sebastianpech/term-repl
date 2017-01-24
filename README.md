@@ -17,7 +17,10 @@ Example configuration:
 
     " General part
     nnoremap <F8> :call SendLine()<CR>
+    nnoremap <F20> :call CloseTerminal() <bar> :call SendLine()<CR>
+
     vnoremap <F8> :call SendLines()<CR>
+    vnoremap <F20> :call CloseTerminal() <bar> :call SendLines()<CR>
 
     " Example implementaion for julia to include the current file
     augroup default_repls
