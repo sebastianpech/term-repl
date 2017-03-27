@@ -1,6 +1,6 @@
 " term-repl.vim - Neovim REPL Support
 " Author:       Sebastian Pech
-" Version:      0.2.1
+" Version:      0.2.2
 
 " Sends a text to the terminal defined in last_term_job_id.
 function! SendToLastTerm(text)
@@ -13,7 +13,15 @@ endfunction
 " In case an error occurs it spawns a new terminal an retries once.
 function! SendLine(...)
     if a:0 == 0
-        let line = getline(".")
+        " Check if the current line is a closed fold, in that case send the
+        " whole fold by visually selecting the line.
+        let current_line = line(".")
+        let folded_lines = foldclosedend(current_line)
+        if folded_lines != -1
+            let line = join(getline(current_line-1,current_line+folded_lines),"\n")
+        else
+            let line = getline(".")
+        endif
     else
         let line = a:1
     endif
