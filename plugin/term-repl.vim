@@ -16,9 +16,9 @@ function! SendLine(...)
         " Check if the current line is a closed fold, in that case send the
         " whole fold by visually selecting the line.
         let current_line = line(".")
-        let folded_lines = foldclosedend(current_line)
-        if folded_lines != -1
-            let line = join(getline(current_line-1,current_line+folded_lines),"\n")
+        let last_line_fold = foldclosedend(current_line)
+        if last_line_fold != -1
+            let line = join(getline(current_line-1,last_line_fold),"\n")
         else
             let line = getline(".")
         endif
